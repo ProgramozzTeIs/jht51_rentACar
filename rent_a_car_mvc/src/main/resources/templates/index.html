@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Car rental app - index</title>
+		<style>
+			td {
+				border: 1px double black;
+			}
+			
+			img {
+				width: 200px;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Make a reservation!</h1>
+		<p>Let's see if any car is available in your chosen time period:</p>
+		
+		<form action="/freecars" method="GET">
+			<div>
+				<label>
+					Start:
+					<input type="date" name="start_date" required>
+				</label>
+			</div>
+			<div>
+				<label>
+					End:
+					<input type="date" name="end_date" required>
+				</label>
+			</div>
+			<div>
+				<button type="submit">Search</button>
+			</div>
+		</form>
+		
+		<p th:if="message" th:text="${message}"></p>
+		
+		<div th:if="${freeCars}">
+			<table>
+				<thead>
+					<tr>
+						<th>Picture</th>
+						<th>Type</th>
+						<th>Price</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="car : ${freeCars}">
+						<td>
+							<img th:src="'data:image/png;base64,' + ${car.getBase64PictureString()}" th:alt="${car.type}">
+						</td>
+						<td>
+							<a th:text="${car.type}" th:href="'/startreservecar/' + ${car.id}"></a>
+						</td>
+						<td th:text="${car.price} + ' HUF'"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</body>
+</html>
