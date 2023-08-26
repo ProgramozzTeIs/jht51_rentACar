@@ -2,35 +2,23 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Car rental app - index</title>
-		<style>
-			td {
-				border: 1px double black;
-			}
-			
-			img {
-				width: 200px;
-			}
-		</style>
+		<title>Rent-A-Car - index</title>
+		<link rel="stylesheet" th:href="@{/styles.css}">
 	</head>
 	<body>
 		<h1>Make a reservation!</h1>
 		<p>Let's see if any car is available in your chosen time period:</p>
 		
 		<form action="/freecars" method="GET">
-			<div>
-				<label>
-					Start:
-					<input type="date" name="start_date" required>
-				</label>
+			<div class="form-row">
+				<label>Start:</label>
+				<input type="date" name="start_date" required>
 			</div>
-			<div>
-				<label>
-					End:
-					<input type="date" name="end_date" required>
-				</label>
+			<div class="form-row">
+				<label>End:</label>
+				<input type="date" name="end_date" required>
 			</div>
-			<div>
+			<div class="form-row">
 				<button type="submit">Search</button>
 			</div>
 		</form>
@@ -43,7 +31,7 @@
 					<tr>
 						<th>Picture</th>
 						<th>Type</th>
-						<th>Price</th>
+						<th>Price/day</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -52,7 +40,8 @@
 							<img th:src="'data:image/png;base64,' + ${car.getBase64PictureString()}" th:alt="${car.type}">
 						</td>
 						<td>
-							<a th:text="${car.type}" th:href="'/startreservecar/' + ${car.id}"></a>
+							<a th:text="${car.type}"
+							   th:href="@{'/startreservecar/{carid}'(carid = ${car.id}, start_date = ${startDate}, end_date = ${endDate})}"></a>
 						</td>
 						<td th:text="${car.price} + ' HUF'"></td>
 					</tr>

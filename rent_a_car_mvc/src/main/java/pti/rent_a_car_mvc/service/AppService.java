@@ -45,4 +45,11 @@ public class AppService {
 		return availableCars;
 	}
 
+	public Car getCarById(int carId) {
+		
+		Car resultCar = db.findCarById(carId);
+		
+		return resultCar;
+	}
+
 }

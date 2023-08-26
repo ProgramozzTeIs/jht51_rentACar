@@ -1,0 +1,33 @@
+@charset "UTF-8";
+
+* {
+	font-family: sans-serif;
+}
+
+td {
+	border: 1px double black;
+	padding: 1rem;
+	text-align: center;
+}
+			
+img {
+	width: 200px;
+}
+
+.form-row {
+	margin: 1rem;
+	width: 500px;
+	display: flex;
+	justify-content: space-between;
+}
+
+input {
+	width: 300px;
+}
+
+.form-row button {
+	background-color: lightblue;
+	font-size: 1.5rem;
+	font-style: bold;
+	border-radius: 0.5rem;
+}

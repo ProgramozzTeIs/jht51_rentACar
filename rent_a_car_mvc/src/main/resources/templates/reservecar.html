@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Rent-A-Car - reservation</title>
+		<link rel="stylesheet" th:href="@{/styles.css}">
+	</head>
+	<body>
+		<h1>Finalize your reservation!</h1>
+		<p>To finalize your reservation, we need some of your data. Don't worry, filling the form won't take long!</p>
+		
+		<form action="/finishreservecar" method="POST">
+			<div class="form-row">
+				<label>Your full name:</label>
+				<input type="text" name="username" required>
+			</div>
+			<div class="form-row">
+				<label>Your email address:</label>
+				<input type="email" name="useremail" required>
+			</div>
+			<div class="form-row">
+				<label>Billing address:</label>
+				<input type="text" name="useraddress" required>
+			</div>
+			<div class="form-row">
+				<label>Your phone number:</label>
+				<input type="number" name="userphone" required>
+			</div>
+			<div class="form-row">
+				<button type="submit">Reserve!</button>
+			</div>
+		</form>
+		
+		<h3>Your chosen car</h3>
+		<table>
+			<thead>
+				<tr>
+					<th></th>
+					<th>Type</th>
+					<th>Price/day</th>
+					<th>Total cost</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>
+						<img th:src="'data:image/png;base64,' + ${car.getBase64PictureString()}" th:alt="${car.type}">
+					</td>
+					<td th:text="${car.type}"></td>
+					<td th:text="${car.price} + ' HUF'"></td>
+					<td th:text="${car.price * (startDate.until(endDate, T(java.time.temporal.ChronoUnit).DAYS) + 1)} + ' HUF'"></td>
+				</tr>
+			</tbody>
+		</table>
+	</body>
+</html>
