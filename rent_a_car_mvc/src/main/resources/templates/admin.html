@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Car Rental - Admin</title>
+</head>
+<body>
+
+	<h1>Admin Page</h1>
+	
+	<h3 style="color:red;" th:text="${message}"></h3>
+	
+	<h3>All Reservations:</h3>
+	<table>
+		<tr>
+			<th>Rent ID</th>
+			<th>Car</th>
+			<th>Car Picture</th>
+			<th>Renter</th>
+			<th>Email Address</th>
+			<th>Phone Number</th>
+			<th>Postal Address</th>
+			<th>Rent Start Date</th>
+			<th>Rent End Date</th>
+		</tr>
+		<tr th:each="reservation : ${allReservations}">
+			<td th:text="${reservation.id}"></td>
+			<td th:text="${reservation.car.type}"></td>
+			<td>
+				<img th:src="'data:image/png;base64, ' + ${reservation.getCar().getBase64PictureString()}"/>
+			</td>
+			<td th:text="${reservation.user_name}"></td>
+			<td th:text="${reservation.user_email}"></td>
+			<td th:text="${reservation.user_phone}"></td>
+			<td th:text="${reservation.user_address}"></td>
+			<td th:text="${reservation.user_address}"></td>
+			<td th:text="${reservation.start_date}"></td>
+			<td th:text="${reservation.end_date}"></td>
+		</tr>
+	</table>
+	
+	<h3>All Cars:</h3>
+	<table>
+		<tr>
+			<th>Car ID</th>
+			<th>Type</th>
+			<th>Available To Rent</th>
+			<th>Rental Fee Per Day</th>
+			<th>Picture</th>
+			<th>Edit Car Data</th>
+		</tr>
+		<tr th:each="car : ${allCars}">
+			<td th:text="${car.id}"></td>
+			<td th:text="${car.type}"></td>
+			<td>
+				<span th:if="${car.available == true}">Yes</span>
+				<span th:if="${car.available == false}">No</span>
+			</td>
+			<td th:text="${car.price} + ' Ft'"></td>
+			<td>
+				<img th:src="'data:image/png;base64, ' + ${car.getBase64PictureString()}"/>
+			</td>
+			<td>
+				<a th:href="@{'/admin/editcar'(carid=${car.id})}" th:text="'Modify Car No. ' + ${car.id}"></a>
+			</td>
+		</tr>
+	</table>
+	
+	<h3>Add New Car:</h3>
+	<form action="/admin/addcar" enctype="multipart/form-data" method="post">
+	
+			<label for="type">Car Type:</label><br/>
+		<input type="text" id="type" name="type" required/><br/>
+		
+			<label for="price">Rental Fee Per Day In HUF:</label><br/>
+		<input type="number" id="price" name="price" required/><br/>
+		
+			<label for="availability">Available to Rent:</label><br/>
+		<select name="available" id="availability">
+			<option value="true" selected>Yes</option>
+			<option value="false">No</option>
+		</select>
+		
+			<label for="picture">Upload A Picture:</label><br/>
+		<input type="file" id="picture" name="file" accept=".png" required/><br/>
+		
+		<input type="submit"/>
+		
+	</form>
+
+</body>
+</html>
