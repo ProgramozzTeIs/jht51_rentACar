@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
+import pti.rent_a_car_mvc.model.dto.ReservationDto;
 import pti.rent_a_car_mvc.service.AppService;
 
 @Controller
@@ -54,14 +56,9 @@ public class AppController {
 		model.addAttribute("car", service.getCarById(carId));
 		model.addAttribute("startDate", startDate);
 		model.addAttribute("endDate", endDate);
+		model.addAttribute("reservation", new ReservationDto());
 		
 		return "reservecar";
-	}
-	
-	@PostMapping("/finishreservecar")
-	public String reserveCar() {
-		
-		return null;
 	}
 	
 }

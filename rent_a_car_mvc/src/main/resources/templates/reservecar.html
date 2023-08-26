@@ -9,22 +9,25 @@
 		<h1>Finalize your reservation!</h1>
 		<p>To finalize your reservation, we need some of your data. Don't worry, filling the form won't take long!</p>
 		
-		<form action="/finishreservecar" method="POST">
+		<form action="/finishreservecar" method="POST" th:object="${reservation}">
+			<input type="hidden" name="car_id"  th:value="${car.id}" th:field="*{carId}">
+			<input type="hidden" name="start_date" th:value="${startDate}" th:field="*{startDate}">
+			<input type="hidden" name="end_date" th:value="${endDate}" th:field="*{endDate}">
 			<div class="form-row">
 				<label>Your full name:</label>
-				<input type="text" name="username" required>
+				<input type="text" name="username" th:field="*{username}" required>
 			</div>
 			<div class="form-row">
 				<label>Your email address:</label>
-				<input type="email" name="useremail" required>
+				<input type="email" name="useremail" th:field="*{userEmail}" required>
 			</div>
 			<div class="form-row">
 				<label>Billing address:</label>
-				<input type="text" name="useraddress" required>
+				<input type="text" name="useraddress" th:field="*{userAddress}" required>
 			</div>
 			<div class="form-row">
 				<label>Your phone number:</label>
-				<input type="number" name="userphone" required>
+				<input type="number" name="userphone" th:field="*{userPhone}" required>
 			</div>
 			<div class="form-row">
 				<button type="submit">Reserve!</button>
