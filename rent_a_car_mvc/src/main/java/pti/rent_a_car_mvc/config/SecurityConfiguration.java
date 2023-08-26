@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
+@SuppressWarnings("deprecation")
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
@@ -53,7 +54,6 @@ public class SecurityConfiguration {
 	 */
 	
 	@Bean
-	@SuppressWarnings("deprecation")
 	public PasswordEncoder encoder() {
 		
 		return NoOpPasswordEncoder.getInstance();
