@@ -97,9 +97,6 @@ public class Database {
 		session.close();
 	}
 	
-	public void persistReservationNative(Reservation reservation) {
-		
-	}
 
 	public boolean peristCar(Car newCar) {
 		
@@ -119,6 +116,30 @@ public class Database {
 		}
 		
 		return success;
+	}
+
+	public List<Reservation> getAllReservations() {
+
+		Session session = dbUtil.getSession();
+		
+		Query<Reservation> q = session.createQuery("FROM Reservation r", Reservation.class);
+		List<Reservation> reservations = q.getResultList();
+		
+		session.close();
+		
+		return reservations;
+	}
+
+	public List<Car> getAllCars() {
+
+		Session session = dbUtil.getSession();
+		
+		Query<Car> q = session.createQuery("FROM Car c", Car.class);
+		List<Car> cars = q.getResultList();
+		
+		session.close();
+		
+		return cars;
 	}
 	
 }

@@ -2,6 +2,7 @@ package pti.rent_a_car_mvc.controller;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import pti.rent_a_car_mvc.model.Car;
+import pti.rent_a_car_mvc.model.Reservation;
 import pti.rent_a_car_mvc.model.dto.ReservationDto;
 import pti.rent_a_car_mvc.service.AppService;
 
@@ -75,6 +78,18 @@ public class AppController {
 		return "index.html";
 	}
 	
+	@GetMapping("/admin")
+	public String showAdminPage(Model model) {
+		
+		List<Reservation> allReservations = service.getAllReservations();
+		List<Car> allCars = service.getAllCars();
+		
+		model.addAttribute("allReservations", allReservations);
+		model.addAttribute("allCars", allCars);
+		
+		return "admin.html";
+	}
+	
 	@PostMapping("/admin/addcar")
 	public String addNewCar(
 				@RequestParam(name = "type") String type,
@@ -96,6 +111,11 @@ public class AppController {
 			message = "Something went wrong while we tried to get the image file. Try again!";
 		}
 		
+		List<Reservation> allReservations = service.getAllReservations();
+		List<Car> allCars = service.getAllCars();
+		
+		model.addAttribute("allReservations", allReservations);
+		model.addAttribute("allCars", allCars);
 		model.addAttribute("message", message);
 		
 		return "admin";

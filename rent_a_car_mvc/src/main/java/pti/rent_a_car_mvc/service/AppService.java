@@ -98,5 +98,21 @@ public class AppService {
 		
 		return message;
 	}
+	
+	
+	public List<Reservation> getAllReservations() {
+		
+		List<Reservation> reservations = db.getAllReservations();
+		
+		return reservations;
+	}
+
+	
+	public List<Car> getAllCars() {
+
+		List<Car> cars = db.getAllCars();
+		
+		return cars;
+	}
 
 }
