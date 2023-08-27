@@ -37,7 +37,7 @@
 				<tbody>
 					<tr th:each="car : ${freeCars}">
 						<td>
-							<img th:src="'data:image/png;base64,' + ${car.getBase64PictureString()}" th:alt="${car.type}">
+							<img th:src="'data:image/png;base64,' + ${car.picture}" th:alt="${car.type}">
 						</td>
 						<td>
 							<a th:text="${car.type}"

@@ -1,5 +1,7 @@
 package pti.rent_a_car_mvc.model;
 
+import org.apache.tomcat.util.codec.binary.Base64;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,11 +28,20 @@ public class Car {
 	@Column(name="price")
 	private int price;
 	
-	@Lob
 	@Column(name="picture")
-	private byte[] picture;
+	private String picture;
 
+	public Car() {}
 	
+	public Car(int id, String type, boolean available, int price, byte[] rawImageData) {
+		
+		this.id = id;
+		this.type = type;
+		this.available = available;
+		this.price = price;
+		
+		this.picture = Base64.encodeBase64String(rawImageData);
+	}
 	
 	public int getId() {
 		return id;
@@ -64,26 +75,19 @@ public class Car {
 		this.price = price;
 	}
 	
-	public byte[] getPicture() {
+	public String getPicture() {
 		return picture;
 	}
 	
-	public void setPicture(byte[] picture) {
+	public void setPicture(String picture) {
 		this.picture = picture;
 	}
 	
 	
-	public String getBase64PictureString() {
+	public void encodeRawImageToBase64(byte[] rawImageData) {
 		
-		String base64String = null;
-		
-		if(picture != null) {
-			base64String = new String(picture);
-		}
-		
-		return base64String;
+		this.picture = Base64.encodeBase64String(rawImageData);
 	}
-
 	
 	@Override
 	public String toString() {

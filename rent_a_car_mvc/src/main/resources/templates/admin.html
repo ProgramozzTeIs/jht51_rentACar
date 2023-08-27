@@ -27,7 +27,7 @@
 			<td th:text="${reservation.id}"></td>
 			<td th:text="${reservation.car.type}"></td>
 			<td>
-				<img th:src="'data:image/png;base64, ' + ${reservation.getCar().getBase64PictureString()}"/>
+				<img th:src="'data:image/png;base64, ' + ${reservation.getCar().getPicture()}"/>
 			</td>
 			<td th:text="${reservation.user_name}"></td>
 			<td th:text="${reservation.user_email}"></td>
@@ -58,7 +58,7 @@
 			</td>
 			<td th:text="${car.price} + ' Ft'"></td>
 			<td>
-				<img th:src="'data:image/png;base64, ' + ${car.getBase64PictureString()}"/>
+				<img th:src="'data:image/png;base64, ' + ${car.getPicture()}"/>
 			</td>
 			<td>
 				<a th:href="@{'/admin/editcar'(carid=${car.id})}" th:text="'Modify Car No. ' + ${car.id}"></a>
