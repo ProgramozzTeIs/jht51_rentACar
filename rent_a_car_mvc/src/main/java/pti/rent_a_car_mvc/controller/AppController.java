@@ -1,5 +1,6 @@
 package pti.rent_a_car_mvc.controller;
 
+import java.io.IOException;
 import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import pti.rent_a_car_mvc.model.dto.ReservationDto;
 import pti.rent_a_car_mvc.service.AppService;
@@ -71,6 +73,32 @@ public class AppController {
 		model.addAttribute("message", message);
 		
 		return "index.html";
+	}
+	
+	@PostMapping("/admin/addcar")
+	public String addNewCar(
+				@RequestParam(name = "type") String type,
+				@RequestParam(name = "price") int price,
+				@RequestParam(name = "availability") boolean availability,
+				@RequestParam(name = "file") MultipartFile file,
+				Model model
+			) {
+		
+		String message = null;
+		
+		try {
+			
+			byte[] imageData = file.getBytes();
+			message = service.addNewCar(type, price, availability, imageData);
+			
+		} catch (IOException e) {
+			
+			message = "Something went wrong while we tried to get the image file. Try again!";
+		}
+		
+		model.addAttribute("message", message);
+		
+		return "admin";
 	}
 	
 }

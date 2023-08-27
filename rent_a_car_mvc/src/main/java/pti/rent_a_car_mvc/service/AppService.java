@@ -86,4 +86,17 @@ public class AppService {
 		return resultResponse;
 	}
 
+	public String addNewCar(String type, int price, boolean availability, byte[] imageData) {
+		
+		Car newCar = new Car(0, type, availability, price, imageData);
+		String message = "Adding the new car failed. Try again!";
+		
+		if(db.peristCar(newCar)) {
+			
+			message = "New car added to database successfully.";
+		}
+		
+		return message;
+	}
+
 }

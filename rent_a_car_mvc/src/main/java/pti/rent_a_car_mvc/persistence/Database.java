@@ -100,5 +100,25 @@ public class Database {
 	public void persistReservationNative(Reservation reservation) {
 		
 	}
+
+	public boolean peristCar(Car newCar) {
+		
+		boolean success = false;
+		
+		Session session = dbUtil.getSession();
+		Transaction tx = session.beginTransaction();
+		
+		session.persist(newCar);
+		
+		tx.commit();
+		session.close();
+		
+		if(newCar.getId() != 0) {
+			
+			success = true;
+		}
+		
+		return success;
+	}
 	
 }
