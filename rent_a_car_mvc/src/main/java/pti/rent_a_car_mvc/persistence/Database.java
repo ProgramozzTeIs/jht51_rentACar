@@ -4,13 +4,14 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
 import pti.rent_a_car_mvc.model.Car;
+import pti.rent_a_car_mvc.model.Reservation;
 
 @Repository
 public class Database {
@@ -82,6 +83,22 @@ public class Database {
 		availableCarsSession.close();
 		
 		return availableCars;
+	}
+	
+	
+	public void persistReservation(Reservation reservation) {
+		
+		Session session = dbUtil.getSession();
+		Transaction tx = session.beginTransaction();
+		
+		session.persist(reservation);
+		
+		tx.commit();
+		session.close();
+	}
+	
+	public void persistReservationNative(Reservation reservation) {
+		
 	}
 	
 }

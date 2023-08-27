@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import pti.rent_a_car_mvc.exception.InvalidDateRangeException;
 import pti.rent_a_car_mvc.exception.NoCarAvailableException;
 import pti.rent_a_car_mvc.model.Car;
+import pti.rent_a_car_mvc.model.Reservation;
+import pti.rent_a_car_mvc.model.dto.ReservationDto;
 import pti.rent_a_car_mvc.persistence.Database;
 
 @Service
@@ -50,6 +52,38 @@ public class AppService {
 		Car resultCar = db.findCarById(carId);
 		
 		return resultCar;
+	}
+
+	
+	public String makeCarReservation(ReservationDto reservation) {
+
+		String resultResponse = null;
+		
+		Reservation reservDbObject = new Reservation();
+		reservDbObject.setId(0);
+		reservDbObject.setUser_name(reservation.getUsername());
+		reservDbObject.setUser_email(reservation.getUserEmail());
+		reservDbObject.setUser_phone(reservation.getUserPhone());
+		reservDbObject.setUser_address(reservation.getUserAddress());
+		reservDbObject.setStart_date(reservation.getStartDate());
+		reservDbObject.setEnd_date(reservation.getEndDate());
+
+		Car car = new Car();
+		car.setId(reservation.getCarId());
+		reservDbObject.setCar(car);
+		
+		try {
+			
+			db.persistReservation(reservDbObject);
+			resultResponse = "Reservation successfully stored.";
+		}
+		catch(Exception e) {
+			
+			resultResponse = "Error occured while processing your request: " + e.getMessage();
+		}
+		
+		
+		return resultResponse;
 	}
 
 }
