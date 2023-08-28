@@ -147,15 +147,15 @@ public class AppService {
 			
 			for(CarReservedTimesDto reservation : openReservations) {
 				
-				List<Car> alternatvesAvailable = this.getAvailableCars(reservation.getStartDate(), reservation.getEndDate());
-				
-				if(alternatvesAvailable.size() > 0) {
+				try {
+					
+					List<Car> alternatvesAvailable = this.getAvailableCars(reservation.getStartDate(), reservation.getEndDate());
 					
 					Car carAlternative = alternatvesAvailable.get( random.nextInt(alternatvesAvailable.size()) );
 					
 					db.updateReservationsCarByResId(reservation.getReservationId(), carAlternative.getId());
 				}
-				else {
+				catch(NoCarAvailableException e) {
 					
 					db.deleteReservationById(reservation.getReservationId());
 				}
