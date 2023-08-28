@@ -121,4 +121,49 @@ public class AppController {
 		return "admin";
 	}
 	
+	@GetMapping("/admin/editcar")
+	public String loadEditCarPage(
+				Model model, 
+				@RequestParam(name="carid") int carId
+			) {
+		
+		Car car = service.getCarById(carId);
+		
+		model.addAttribute("car", car);
+		
+		return "editcar.html";
+	}
+	
+	@PostMapping("/admin/editcar")
+	public String editCarDetails(
+				Model model,
+				@RequestParam(name="carid") int carId,
+				@RequestParam(name="type") String type,
+				@RequestParam(name="price") int price,
+				@RequestParam(name="availability") boolean availability,
+				@RequestParam(name="file", required=false) MultipartFile file
+			) {
+		
+		String targetPage = "admin.html";
+
+		try {
+			
+			service.updateCarDetails(carId, type, price, availability, file);
+			
+			model.addAttribute("allReservations", service.getAllReservations());
+			model.addAttribute("allCars", service.getAllCars());
+			model.addAttribute("message", type + " (ID: " + carId + ") data updated successfully.");
+		}
+		catch(Exception e) {
+			
+			targetPage = "editcar.html";
+			Car carToEdit = service.getCarById(carId);	
+			model.addAttribute("car", carToEdit);
+			model.addAttribute("message", "Error occured while processing your request: " + e.getMessage());
+		}
+		
+		
+		return targetPage;
+	}
+	
 }

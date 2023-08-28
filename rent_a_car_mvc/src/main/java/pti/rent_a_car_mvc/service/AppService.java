@@ -1,15 +1,19 @@
 package pti.rent_a_car_mvc.service;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import pti.rent_a_car_mvc.exception.InvalidDateRangeException;
 import pti.rent_a_car_mvc.exception.NoCarAvailableException;
 import pti.rent_a_car_mvc.model.Car;
 import pti.rent_a_car_mvc.model.Reservation;
+import pti.rent_a_car_mvc.model.dto.CarReservedTimesDto;
 import pti.rent_a_car_mvc.model.dto.ReservationDto;
 import pti.rent_a_car_mvc.persistence.Database;
 
@@ -113,6 +117,51 @@ public class AppService {
 		List<Car> cars = db.getAllCars();
 		
 		return cars;
+	}
+	
+
+	public void updateCarDetails(int carId, String type, int price, boolean availability, MultipartFile file) throws IOException {
+				
+		Car car = new Car();
+		car.setId(carId);
+		car.setType(type);
+		car.setPrice(price);
+		car.setAvailable(availability);
+		
+		byte[] imageData = file.getBytes();
+
+		if(imageData.length > 0) {
+
+			car.encodeRawImageToBase64(imageData);	
+			db.mergeCar(car);
+		}
+		else {
+			
+			db.mergeCarWithoutBlob(car);
+		}
+		
+		if(car.isAvailable() == false) {
+			
+			List<CarReservedTimesDto> openReservations = db.getOpenReservationsByCarId(carId);
+			Random random = new Random();
+			
+			for(CarReservedTimesDto reservation : openReservations) {
+				
+				List<Car> alternatvesAvailable = this.getAvailableCars(reservation.getStartDate(), reservation.getEndDate());
+				
+				if(alternatvesAvailable.size() > 0) {
+					
+					Car carAlternative = alternatvesAvailable.get( random.nextInt(alternatvesAvailable.size()) );
+					
+					db.updateReservationsCarByResId(reservation.getReservationId(), carAlternative.getId());
+				}
+				else {
+					
+					db.deleteReservationById(reservation.getReservationId());
+				}
+			}
+		}
+		
 	}
 
 }

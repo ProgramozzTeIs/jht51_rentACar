@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Car Rental - Admin - Edit Car</title>
+	<link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+	<h1 th:text="'Edit Car: ' + ${car.type}"></h1>
+	
+	<h3 style="color:red;" th:text="${message}"></h3>
+	
+	<form action="/admin/editcar" enctype="multipart/form-data" method="post">
+		<input type="hidden" name="carid" th:value="${car.id}" />
+		<div class="form-row">
+			<label for="cartype">Car Type:</label>
+			<input type="text" name="type" th:value="${car.type}" id="cartype" required/>
+		</div>
+		<div class="form-row">
+			<label for="price">Price Per Day:</label>
+			<input type="number" name="price" th:value="${car.price}" id="price" required/>
+		</div>
+		<div class="form-row">
+			<label for="availability">Available To Rent:</label>
+			<select name="availability" id ="availability">
+				<option value="true" th:selected="${car.available == true}">Yes</option>
+				<option value="false" th:selected="${car.available == false}">No</option>
+			</select>
+		</div>
+
+		<img th:src="'data:image/png;base64, ' + ${car.getPicture()}"/>
+		<br/>
+		<label for="picture">Upload A New Picture (optional):</label>
+		<br/>
+		<input type="file" id="picture" name="file" accept=".png"/>
+
+		<div class="form-row">
+			<input type="submit"/>
+		</div>		
+	</form>
+	
+</body>
+</html>
