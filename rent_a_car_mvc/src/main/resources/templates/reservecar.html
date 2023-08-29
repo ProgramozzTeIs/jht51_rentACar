@@ -47,7 +47,7 @@
 			<tbody>
 				<tr>
 					<td>
-						<img th:src="'data:image/png;base64,' + ${car.getBase64PictureString()}" th:alt="${car.type}">
+						<img th:src="'data:image/png;base64,' + ${car.getPicture()}" th:alt="${car.type}">
 					</td>
 					<td th:text="${car.type}"></td>
 					<td th:text="${car.price} + ' HUF'"></td>
